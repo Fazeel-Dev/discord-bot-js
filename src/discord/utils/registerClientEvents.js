@@ -8,7 +8,7 @@ const eventFiles = fs
 
 /**
  * Method to register client events
- * @param {client} client
+ * @param {*} client
  */
 module.exports.registerClientEvents = (client) => {
 	for (const file of eventFiles) {
