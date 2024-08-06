@@ -1,11 +1,15 @@
-const { Client, GatewayIntentBits, Events } = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const {
+	registerClientEvents,
+} = require('./discord/handlers/registerClientEvents');
 
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
 });
 
-client.once(Events.ClientReady, (instance) => {
-	console.log(`Logged in as ${instance.user.tag}`);
-});
+client.commands = new Collection();
+
+console.log('Registering Events');
+registerClientEvents(client);
 
 module.exports = { client };
