@@ -1,6 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { COMMAND_SCOPE } = require('../../../shared/constants');
+const { category } = require('../moderation/reload');
 
 module.exports = {
+	category: 'fun',
+	scope: COMMAND_SCOPE.APPLICATION,
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
