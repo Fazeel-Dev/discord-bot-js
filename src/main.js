@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Events, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const {
 	registerClientEvents,
 } = require('./discord/handlers/registerClientEvents');
