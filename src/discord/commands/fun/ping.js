@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { COMMAND_SCOPE } = require('../../../shared/constants');
-const { category } = require('../moderation/reload');
 
 module.exports = {
 	category: 'fun',
