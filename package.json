@@ -4,7 +4,8 @@
 	"description": "Boilerplate for discord bot",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon --env-file=.env ."
+		"start": "node --env-file=.env .",
+		"dev": "nodemon --env-file=.env ."
 	},
 	"repository": {
 		"type": "git",
