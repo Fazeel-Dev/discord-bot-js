@@ -1,6 +1,14 @@
 services:
   bot:
-    build:
-      context: .
+    container_name: 'discord-bot-js'
+    image: node:20.15.0-alpine  # Use the official Node.js image
+    working_dir: /usr/src/app   # Set the working directory inside the container
+    volumes:
+      - .:/usr/src/app          # Mount the current directory into the container
+      - /usr/src/app/node_modules # Avoid node_modules reinstallation on each start
     environment:
-      NODE_ENV: production
+      NODE_ENV: production      # Set environment variables
+    command: sh -c "npm i --omit=dev && npm start"          # Command to start the Node.js application
+    restart: unless-stopped     # Restart policy to keep the container running
+    env_file:
+      - .env   
