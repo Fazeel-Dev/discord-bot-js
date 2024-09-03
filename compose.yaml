@@ -2,5 +2,11 @@ services:
   bot:
     build:
       context: .
-    environment:
-      NODE_ENV: production
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: 20.15.0
+    env_file:
+      - .env.production  # Pass the Node.js version as a build argument.
+    restart: unless-stopped  # Ensure the container restarts unless explicitly stopped.
+    volumes:
+      - .:/usr/src/app  # Mount the current directory into the container for development purposes.

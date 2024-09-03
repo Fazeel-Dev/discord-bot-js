@@ -1,23 +1,24 @@
+# Specify the Node.js version to use as a build argument.
 ARG NODE_VERSION=20.15.0
 
+# Use the official Node.js Alpine image as the base image.
 FROM node:${NODE_VERSION}-alpine
 
-# Use production node environment by default.
+# Set environment variables.
 ENV NODE_ENV production
 
+# Set the working directory inside the container.
 WORKDIR /usr/src/app
 
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+# Install dependencies only using the package and lock files, and cache the npm cache directory.
+COPY package*.json ./
+RUN npm ci --omit=dev --cache /root/.npm --prefer-offline
 
-# Run the application as a non-root user.
+# Copy the rest of the application source code.
+COPY . .
+
+# Ensure the application runs as a non-root user.
 USER node
 
-# Copy the rest of the source files into the image.
-COPY . .
-COPY .env.production .env
-
 # Run the application.
-CMD npm start
+CMD ["npm", "start"]
