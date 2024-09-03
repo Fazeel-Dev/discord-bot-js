@@ -55,4 +55,15 @@ console.log('Registering the loaded commands');
 	}
 })();
 
+// Add error handling
+client.on('error', (error) =>
+	console.error(`Client Error: ${error.message}`.red)
+);
+client.on('unhandledRejection', (error) =>
+	console.error('Unhandled promise rejection:', error)
+);
+client.on('warn', (warning) =>
+	console.warn(`Client Warning: ${warning}`.yellow)
+);
+
 module.exports = { client };
