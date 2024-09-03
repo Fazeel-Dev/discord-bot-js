@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, ActivityType } = require('discord.js');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -6,5 +6,14 @@ module.exports = {
 	once: true,
 	execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
+
+		client.user.setPresence({
+			activities: [
+				{
+					name: 'Iam alive',
+					type: ActivityType.Custom,
+				},
+			],
+		});
 	},
 };
