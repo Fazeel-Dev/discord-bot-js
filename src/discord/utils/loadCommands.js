@@ -24,13 +24,15 @@ module.exports.loadCommands = (client) => {
 			for (const file of commandFiles) {
 				const filePath = path.join(commandsPath, file);
 				const command = require(filePath);
-				if ('data' in command && 'execute' in command) {
+				if (command.command === false) continue;
+				if (command.data && command.execute) {
 					commands[command.scope].push(command.data.toJSON());
 					client.commands.set(command.data.name, command);
 					console.log('Loaded command: ', command.data.name);
 				} else {
-					console.warn(
+					console.error(
 						`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+							.red
 					);
 				}
 			}
