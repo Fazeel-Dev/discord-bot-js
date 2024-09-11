@@ -65,6 +65,6 @@ module.exports = {
 				text: `Requested by ${interaction.user.username}`,
 				iconURL: interaction.user.avatarURL(),
 			});
-		await interaction.reply({ embeds: [pingEmbed], ephemeral: true });
+		await interaction.reply({ embeds: [pingEmbed] });
 	},
 };
