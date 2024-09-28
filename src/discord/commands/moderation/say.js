@@ -4,6 +4,9 @@ const {
 	EmbedBuilder,
 } = require('discord.js');
 const { COMMAND_SCOPE } = require('../../../shared/constants');
+const { CustomLogger } = require('../../../shared/customLogger');
+
+const logger = new CustomLogger(__filename);
 
 module.exports = {
 	category: 'moderation',
@@ -32,7 +35,7 @@ module.exports = {
 			await channel.send(message);
 			await interaction.reply({ content: 'Message sent!', ephemeral: true });
 		} catch (error) {
-			console.error('Error sending message:', error);
+			logger.error('Error sending message:', error);
 			await interaction.reply({
 				content: 'There was an error sending the message.',
 				ephemeral: true,
