@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const { CustomLogger } = require('../../shared/customLogger');
 
+const logger = new CustomLogger(__filename);
 const foldersPath = path.join(__dirname, '../commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -14,7 +16,7 @@ module.exports.loadCommands = (client) => {
 		APPLICATION: [],
 		GUILD: [],
 	};
-	console.log('Loading Application (/) commands');
+	logger.log('Loading Application (/) commands');
 	try {
 		for (const folder of commandFolders) {
 			const commandsPath = path.join(foldersPath, folder);
@@ -28,17 +30,16 @@ module.exports.loadCommands = (client) => {
 				if (command.data && command.execute) {
 					commands[command.scope].push(command.data.toJSON());
 					client.commands.set(command.data.name, command);
-					console.log('Loaded command: ', command.data.name);
+					logger.log('Loaded command: ', command.data.name);
 				} else {
-					console.error(
-						`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-							.red
+					logger.warn(
+						`The command at ${filePath} is missing a required "data" or "execute" property.`
 					);
 				}
 			}
 		}
 		return commands;
 	} catch (error) {
-		console.log(error);
+		logger.log(error);
 	}
 };

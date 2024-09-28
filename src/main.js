@@ -11,6 +11,9 @@ const {
 } = require('./discord/utils/registerClientEvents');
 const { loadCommands } = require('./discord/utils/loadCommands');
 const { COMMAND_SCOPE } = require('./shared/constants');
+const { CustomLogger } = require('./shared/customLogger');
+
+const logger = new CustomLogger(__filename);
 
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
@@ -19,16 +22,16 @@ const rest = new REST({ version: '10' }).setToken(config.bot.token);
 
 client.commands = new Collection();
 
-console.log('Registering Events');
+logger.log('Registering Events');
 registerClientEvents(client);
 
-console.log('Loading Commands');
+logger.log('Loading Commands');
 const commands = loadCommands(client);
 
-console.log('Registering the loaded commands');
+logger.log('Registering the loaded commands');
 (async () => {
 	try {
-		console.log(
+		logger.log(
 			`Started registering ${
 				commands[COMMAND_SCOPE.APPLICATION].length +
 				commands[COMMAND_SCOPE.GUILD].length
@@ -42,28 +45,28 @@ console.log('Registering the loaded commands');
 			),
 			{ body: commands[COMMAND_SCOPE.GUILD] }
 		);
-		console.log(`Successfully registered ${guild.length} Guild (/) commands.`);
+		logger.log(`Successfully registered ${guild.length} Guild (/) commands.`);
 		const application = await rest.put(
 			Routes.applicationCommands(config.bot.clientId),
 			{ body: commands[COMMAND_SCOPE.APPLICATION] }
 		);
-		console.log(
+		logger.log(
 			`Successfully registered ${application.length} Application (/) commands.`
 		);
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 	}
 })();
 
 // Add error handling
 client.on('error', (error) =>
-	console.error(`Client Error: ${error.message}`.red)
+	logger.error(`Client Error: ${error.message}`.red)
 );
 client.on('unhandledRejection', (error) =>
-	console.error('Unhandled promise rejection:', error)
+	logger.error('Unhandled promise rejection:', error)
 );
 client.on('warn', (warning) =>
-	console.warn(`Client Warning: ${warning}`.yellow)
+	logger.warn(`Client Warning: ${warning}`.yellow)
 );
 
 module.exports = { client };
